@@ -1,0 +1,35 @@
+{
+  "name": "shimarin",
+  "version": "0.0.1",
+  "description": "Asynchronous event-based communication between client and server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamuridesu/shimarin-js.git"
+  },
+  "keywords": [
+    "javascript",
+    "event-based",
+    "event",
+    "async"
+  ],
+  "author": "Kamuri Amorim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kamuridesu/shimarin-js/issues"
+  },
+  "homepage": "https://github.com/kamuridesu/shimarin-js#readme",
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  },
+  "type": "module"
+}
