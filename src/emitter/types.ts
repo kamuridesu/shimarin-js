@@ -14,7 +14,11 @@ export interface IShimaEvent {
 
     age(): number;
     getAnswer(timeout: number): Promise<any>;
-    toJson(): string;
+    toJson(): {
+        event_type: string;
+        payload: string;
+        identifier: string;
+    };
     trigger(replyPayload: string): Promise<any>;
 }
 

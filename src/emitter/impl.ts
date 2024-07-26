@@ -33,21 +33,24 @@ export class ShimaEvent implements IShimaEvent {
     }
 
     async getAnswer(timeout: number) {
-        const start = Date.now();
+        const start = (Date.now());
         do {
-            if ((Date.now() - start) >= timeout) {
+            // console.log((Date.now()) - start >= timeout);
+            // console.log((Date.now()) - start);
+            if (((Date.now()) - start) / 1000 >= timeout) {
                 throw EventTimeoutError
             }
+            await new Promise((r) => setTimeout(r, 1000));
         } while (!this.answered);
         return this.answer;
     }
 
-    toJson(): string {
-        return JSON.stringify({
+    toJson() {
+        return {
             event_type: this.type,
             payload: this.payload,
             identifier: this.id
-        });
+        };
     }
 
     async trigger(replyPayload: string) {
@@ -77,21 +80,21 @@ export class ShimaEmitter implements IShimaEmitter {
     handlers: ICallbackHandlers;
     maxAgeSeconds: number;
 
-    constructor(maxAgeSeconds: number) {
+    constructor(maxAgeSeconds = 0) {
         this.handlers = new CallbackHandlers();
         this.maxAgeSeconds = maxAgeSeconds;
     }
 
     async cleanOldItems() {
         const removeCallback = (x: IShimaEvent) => {
-            x.done || (this.maxAgeSeconds != 0 ? (x.age() > this.maxAgeSeconds) : false)
+            x != undefined && (x.done || (this.maxAgeSeconds != 0 ? (x.age() > this.maxAgeSeconds) : false))
         }
         this.events = this.events.filter(removeCallback);
         this.handlers.events = this.handlers.events.filter(removeCallback);
     }
 
     async fetch(last: boolean) {
-        await this.cleanOldItems();
+        // await this.cleanOldItems();
         const ev = this.events.splice(last ? -1 : 0, 1)[0];
         await this.handlers.register(ev);
         return ev;
@@ -103,7 +106,7 @@ export class ShimaEmitter implements IShimaEmitter {
     }
 
     async handle(uuid: string, replyPayload: any) {
-        await this.cleanOldItems();
+        // await this.cleanOldItems();
         return await this.handlers.handle(uuid, replyPayload);
     }
 

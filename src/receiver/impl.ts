@@ -100,7 +100,7 @@ export class EventPolling implements IShimaPoller {
                     const events = await fetchEvents(endpoint, fetch, headers ? headers : {});
                     if (events.status == 200) {
                         const eventData: IShimaIncomingEvent[] = events.data;
-                        eventData.forEach(async x => {
+                        for (const x of eventData) {
                             const ev = new ShimaEvent(
                                 x.event_type,
                                 x.identifier,
@@ -109,16 +109,16 @@ export class EventPolling implements IShimaPoller {
                                 headers
                             );
                             await this.__task_manager(ev);
-                        });
+                        }
                         break;
                     }
                 } catch (e) {
-                    console.log(e)
+                    console.log(e);
                     console.log("Error connecting to " + endpoint + "! Retrying...");
-                    await new Promise(r => setTimeout(r, 1));
                 }
-                await new Promise(r => setTimeout(r, interval));
+                await new Promise(r => setTimeout(r, (interval * 1000)));
             }
+            await new Promise(r => setTimeout(r, (interval * 1000)));
         }
     }
 
