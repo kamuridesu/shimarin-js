@@ -1,12 +1,13 @@
 {
-  "name": "shimarin",
+  "name": "@kamuridesu/shimarin",
   "version": "0.0.2",
   "description": "Asynchronous event-based communication between client and server.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js",
+    "push": "sh publish.sh"
   },
   "repository": {
     "type": "git",
